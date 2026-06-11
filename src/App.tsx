@@ -1,20 +1,34 @@
 
-import { useState } from "react";
-export default function App() {
-  const [value, setValue] = useState("");
- 
 
-type GreetingProps = {
-  name: string;
-  age: number;
+import { useState, useEffect } from "react";
+type Product = {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
 };
-function Greeting({ name, age }: GreetingProps) {
+export default function App() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products")
+      .then((res) => res.json())
+      .then((data: Product[]) => {
+        setProducts(data);
+        setLoading(false);
+      });
+  }, []);
+  if (loading) return <p>Loading...</p>;
   return (
-    <p>
-      Hello, {name}. You are {age} years old.
-    </p>
+    <ul>
+      {products.map((p) => (
+        <li key={p.id}>
+          {p.title} — ${p.price}
+        </li>
+      ))}
+    </ul>
   );
-
-  return <Greeting name="Sara" age={25} />;
-
 }
+
+
+
