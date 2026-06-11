@@ -1,10 +1,20 @@
+
 import { useState } from "react";
 export default function App() {
   const [value, setValue] = useState("");
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setValue(e.target.value);
-  }
+ 
+
+type GreetingProps = {
+  name: string;
+  age: number;
+};
+function Greeting({ name, age }: GreetingProps) {
   return (
-    <input value={value} onChange={handleChange} placeholder="Type here" />
+    <p>
+      Hello, {name}. You are {age} years old.
+    </p>
   );
+
+  return <Greeting name="Sara" age={25} />;
+
 }
